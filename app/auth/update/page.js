@@ -8,10 +8,6 @@ import { Button, Container, Form, Image, Stack } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-export const metadata = {
-  title: "Blog | UserProfile",
-};
-
 const UpdateUser = () => {
   const { user } = useSelector((state) => state.user);
   const [name, setname] = useState("");

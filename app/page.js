@@ -10,11 +10,6 @@ import { Container } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 
-export const metadata = {
-  title: "Blog",
-  description: "Social Nextwork for software developer",
-};
-
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
