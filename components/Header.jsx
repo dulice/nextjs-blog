@@ -1,11 +1,12 @@
 "use client";
 
-import { logout } from "@/redux/userSlice.";
-import { signOut } from "next-auth/react";
+import { login, logout } from "@/redux/userSlice.";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import {
   Button,
   Container,
@@ -22,17 +23,33 @@ const Header = () => {
   const [search, setSearch] = useState("");
   const router = useRouter();
   const dispatch = useDispatch();
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (session) {
+        dispatch(login(session.user));
+      }
+    };
+    fetchUser();
+  }, [session, dispatch]);
+
   const handleSearch = (e) => {
     e.preventDefault();
     router.push(`/posts/search/${search}`);
+    setSearch("");
   };
 
   const handleLogout = () => {
-    signOut({callbackUrl: '/auth/login'});
+    signOut({ callbackUrl: "/auth/login" });
     dispatch(logout());
-  }
+  };
+
+  const handleEdit = () => {
+    router.push("/auth/update");
+  };
   return (
-    <Navbar bg="light" className="border mb-5" sticky="top">
+    <Navbar bg="light" className="border mb-3" sticky="top">
       <Container>
         <Navbar.Brand>
           <Link href={"/"} className="text-decoration-none text-bl">
@@ -59,7 +76,8 @@ const Header = () => {
                   Add <BiPlus />
                 </Link>
               </Button>
-              <DropdownButton variant="light"
+              <DropdownButton
+                variant="light"
                 title={
                   <Image
                     src={user.image}
@@ -68,14 +86,15 @@ const Header = () => {
                     height={40}
                     className="rounded-circle"
                     style={{ objectFit: "cover" }}
+                    unoptimized
                   />
                 }
               >
-                <>
-                  <Link href={`/auth/update`} className="text-decoration-none text-black-50 ms-3 mb-3"><BiEditAlt /> Edit Account</Link>
-                </>
-                <Dropdown.Item>
-                  <Button variant="danger" onClick={handleLogout}><BiLogOut /> Logout</Button>
+                <Dropdown.Item onClick={handleEdit}>
+                  <BiEditAlt /> Edit Account
+                </Dropdown.Item>
+                <Dropdown.Item onClick={handleLogout}>
+                  <BiLogOut /> Logout
                 </Dropdown.Item>
               </DropdownButton>
             </>

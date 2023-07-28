@@ -4,9 +4,8 @@ import { logout } from "@/redux/userSlice.";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Button, Container, Form, Image, Stack } from "react-bootstrap";
+import { Alert, Button, Container, Form, Image, Stack } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 
 const UpdateUser = () => {
   const { user } = useSelector((state) => state.user);
@@ -16,6 +15,7 @@ const UpdateUser = () => {
   const [updatePassword, setUpdatePassword] = useState("");
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -43,7 +43,7 @@ const UpdateUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== updatePassword)
-      return toast.error("Password Do not Match");
+      return setErrorMessage("Password Do not Match");
     setIsLoading(true);
     try {
       if (user.image !== image) {
@@ -66,9 +66,8 @@ const UpdateUser = () => {
           password,
         });
       }
-      toast.success("User Updated!");
       dispatch(logout());
-      router.push('/auth/login')
+      router.push("/auth/login");
     } catch (error) {
       setIsLoading(false);
     }
@@ -77,6 +76,7 @@ const UpdateUser = () => {
   return (
     <>
       <Container>
+        {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
         <Form className="my-3" onSubmit={handleSubmit}>
           <Stack gap={3}>
             <Form.Group className="mx-auto">
@@ -125,6 +125,7 @@ const UpdateUser = () => {
                 input="text"
                 placeholder="email..."
                 name="email"
+                disabled={true}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />

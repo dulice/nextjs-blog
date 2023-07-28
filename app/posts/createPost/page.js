@@ -5,15 +5,15 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 
 const CreatePost = () => {
-  const { user } = useSelector(state => state.user);
+  const { user } = useSelector((state) => state.user);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [languages, setLanguages] = useState([]);
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -30,24 +30,36 @@ const CreatePost = () => {
           publicId: data.publicId,
           author: {
             name: user.name,
+            email: user.email,
             image: user.image,
           },
         });
         router.push("/");
       } else {
-        toast.error("Data not found")
+        setErrorMessage("Data not found");
       }
     } catch (error) {
       setIsLoading(false);
-      toast.error(error);
     }
   };
 
-  const props = {title, setTitle, description, setDescription, languages, setLanguages, image, setImage, isLoading, handleSubmit}
+  const props = {
+    title,
+    errorMessage,
+    setTitle,
+    description,
+    setDescription,
+    languages,
+    setLanguages,
+    image,
+    setImage,
+    isLoading,
+    handleSubmit,
+  };
 
   return (
     <>
-      <PostForm {...props}/>
+      <PostForm {...props} />
     </>
   );
 };

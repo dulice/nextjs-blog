@@ -1,55 +1,24 @@
 "use client";
 
-import Loading from "@/components/Loading";
+import Error from "@/components/Error";
+import HomeSkeleton from "@/components/HomeSkeleton";
 import Post from "@/components/Post";
-import { login } from "@/redux/userSlice.";
-import axios from "axios";
-import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import { fetcher } from "@/utlis/helper";
 import { Container } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
+import useSWR from "swr";
 
 const Posts = () => {
-  const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const { data: session } = useSession();
-  const dispatch = useDispatch();
+  const { data: posts, isLoading, error } = useSWR("/api/posts", fetcher);
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      setIsLoading(true);
-      try {
-        const { data } = await axios.get("/api/posts");
-        setIsLoading(false);
-        setPosts(data);
-      } catch (err) {
-        setIsLoading(false);
-        if(err.response.data) {
-          toast.error(err.response.data.message);
-        }
-        console.log(err);
-      }
-    }
-    fetchPost();
-  },[]);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (session) {
-        dispatch(login(session.user));
-      }
-    };
-    fetchUser();
-  }, [session, dispatch]);
-
-  if (isLoading) return <Loading />;
+  if (error) return <Error />;
+  if (isLoading) return <HomeSkeleton />;
   return (
     <>
       <Container className="px-5">
-        {posts.map((post) => <Post post={post} key={post._id} />)}
+        {posts.map((post) => (
+          <Post post={post} key={post._id} />
+        ))}
       </Container>
-      <ToastContainer position="top-center" />
     </>
   );
 };

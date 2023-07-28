@@ -10,7 +10,7 @@ export const mutateData = async (url, method, data) => {
     });
   
     // Trigger a revalidation of the data
-    mutate(url);
+    mutate(url, (cacheData) => ({...cacheData, data}));
   };
 
-export const fetcher = (url) => fetch(url).then(res => res.json());
+export const fetcher = (...args) => fetch(...args).then(res => res.json());

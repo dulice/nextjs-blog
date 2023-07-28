@@ -20,6 +20,7 @@ const Post = ({ post }) => {
               height={100}
               className="w-100 h-100"
               style={{objectFit: "contain"}}
+              unoptimized  
             />
           </Link>
         </Col>
@@ -32,7 +33,7 @@ const Post = ({ post }) => {
             ))}
           </div>
           <Link href={`/posts/${post._id}`} className="text-decoration-none text-black">
-            <h1>{post.title}</h1>
+            <h4>{post.title}</h4>
           </Link>
           <Row>
             <Col>
@@ -42,11 +43,12 @@ const Post = ({ post }) => {
                 width={30}
                 height={30}
                 className="rounded rounded-circle me-2"
+                unoptimized
               />
               <span>{post.author?.name}</span>
             </Col>
             <Col>
-              <p>{readingTime(post.description).text}</p>
+              <p>{readingTime(post.description, 180).text}</p>
             </Col>
           </Row>
         </Col>

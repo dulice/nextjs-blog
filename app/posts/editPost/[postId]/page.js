@@ -1,39 +1,31 @@
 "use client";
 
 import PostForm from "@/components/Form";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
-import { toast } from "react-toastify";
+import { usePost } from "@/utlis/fetch";
+import Loading from "@/components/Loading";
+import Error from "@/components/Error";
 
 const EditPost = () => {
   const { postId } = useParams();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [languages, setLanguages] = useState([]);
-  const [image, setImage] = useState(null);
-  const [prevImg, setPrevImag] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const { post, isLoading: loading, error } = usePost(postId);
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      const { data: post } = await axios.get(`/api/posts/${postId}`)
-      setTitle(post.title);
-      setDescription(post.description);
-      setLanguages(post.languages);
-      setImage(post.image);
-      setPrevImag(post.image);
-    }
-    fetchPost();
-  },[postId])
+  const [title, setTitle] = useState(post.title || "");
+  const [description, setDescription] = useState(post.description || "");
+  const [languages, setLanguages] = useState(post.languages || []);
+  const [image, setImage] = useState(post.image || null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      if (prevImg !== image) {
+      if (post.image !== image) {
         await axios.put("/api/upload", { publicId: post.publicId });
         const { data: imageInfo } = await axios.post("/api/upload", { image });
         if (imageInfo) {
@@ -55,7 +47,7 @@ const EditPost = () => {
       router.push(`/posts/${postId}`);
     } catch (error) {
       setIsLoading(false);
-      toast.error(error);
+      setErrorMessage(error);
     }
   };
 
@@ -70,7 +62,11 @@ const EditPost = () => {
     setImage,
     isLoading,
     handleSubmit,
+    errorMessage
   };
+
+  if (error) return <Error />;
+  if (loading) return <Loading />;
 
   return (
     <>

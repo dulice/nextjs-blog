@@ -1,16 +1,16 @@
 "use client";
 import React, { useState } from "react";
-import { Button, Card, Container, Form, Stack } from "react-bootstrap";
+import {Alert, Button, Card, Container, Form, Stack } from "react-bootstrap";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ToastContainer, toast } from "react-toastify";
 
 const Register = () => {
   const [name, setname] = useState("");
   const [email, setEamil] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -22,7 +22,7 @@ const Register = () => {
       router.push("/auth/login");
     } catch (err) {
       setIsLoading(false);
-      toast.error(err);
+      setErrorMessage(err);
     }
   };
   return (
@@ -33,6 +33,7 @@ const Register = () => {
             <h5 className="text-center">Register</h5>
           </Card.Header>
           <Card.Body>
+            {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
             <Form onSubmit={handleSubmit}>
               <Stack gap={3}>
                 <Form.Group>
@@ -78,7 +79,6 @@ const Register = () => {
             </Form>
           </Card.Body>
         </Card>
-        <ToastContainer position="top-center"/>
       </Container>
     </>
   );

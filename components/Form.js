@@ -4,6 +4,7 @@ import React from "react";
 import { Button, Container, Form, Image, Stack } from "react-bootstrap";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import Error from "./Error";
 
 const options = [
   { value: "html", label: "html" },
@@ -34,6 +35,7 @@ const PostForm = (props) => {
     setLanguages,
     isLoading,
     handleSubmit,
+    errorMessage
   } = props;
   const animatedComponents = makeAnimated();
   const handleSelectOption = (languages) => {
@@ -56,6 +58,7 @@ const PostForm = (props) => {
   return (
     <>
       <Container>
+        {errorMessage && <Error />}
         <Form className="my-3" onSubmit={handleSubmit}>
           <Stack gap={3}>
             <Form.Group className="mx-auto">

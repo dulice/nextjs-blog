@@ -1,41 +1,29 @@
 "use client";
 
-import Loading from "@/components/Loading";
+import Error from "@/components/Error";
+import HomeSkeleton from "@/components/HomeSkeleton";
 import Post from "@/components/Post";
+import { fetcher } from "@/utlis/helper";
 import { useParams } from "next/navigation";
-import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { ToastContainer, toast } from "react-toastify";
+import useSWR from "swr";
 
 const Languages = () => {
   const { language } = useParams();
-  const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    const fetchPost = async () => {
-      setIsLoading(true);
-      try {
-        const res = await fetch(`/api/posts/category/${language}`);
-        const posts = await res.json();
-        setPosts(posts);
-        setIsLoading(false);
-      } catch (err) {
-        setIsLoading(false);
-        toast.error(err);
-      }
-    }
-    fetchPost();
-  },[language]);
+  const {
+    data: posts,
+    isLoading,
+    error,
+  } = useSWR(`/api/posts/category/${language}`, fetcher);
 
-  if (isLoading) return <Loading />;
+  if (error) return <Error />;
+  if (isLoading) return <HomeSkeleton />;
   return (
     <div>
       <Container className="px-5">
-        {posts.length > 0 && posts.map((post) => (
-          <Post post={post} key={post._id} />
-        ))}
+        {posts.length > 0 &&
+          posts.map((post) => <Post post={post} key={post._id} />)}
       </Container>
-      <ToastContainer position="top-center" />
     </div>
   );
 };

@@ -1,16 +1,16 @@
 "use client";
 import React, { useState } from "react";
-import { Button, Card, Container, Form, Stack } from "react-bootstrap";
+import {Alert, Button, Card, Container, Form, Stack } from "react-bootstrap";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
-import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEamil] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -22,10 +22,10 @@ const Login = () => {
       redirect: false,
     });
     if (res.error === null) {
-      router.push("/");
+      router.back() || router.push("/");
     } else {
       setIsLoading(false);
-      toast.error(res.error);
+      setErrorMessage(res.error);
     }
   };
 
@@ -41,6 +41,7 @@ const Login = () => {
             <h5 className="text-center">Login</h5>
           </Card.Header>
           <Card.Body>
+            {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
             <Form onSubmit={handleSubmit}>
               <Stack gap={3}>
                 <Form.Group>
@@ -85,7 +86,6 @@ const Login = () => {
             </div>
           </Card.Body>
         </Card>
-        <ToastContainer position="top-center" />
       </Container>
     </>
   );

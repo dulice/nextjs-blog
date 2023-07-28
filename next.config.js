@@ -1,10 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-    serverComponentsExternalPackages: ["mongoose"],
-  },
-  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
@@ -17,17 +12,6 @@ const nextConfig = {
       },
     ],
     unoptimized: true,
-  },
-  webpack(config) {
-    config.experiments = {
-      ...config.experiments,
-      topLevelAwait: true,
-    };
-    config.module = {
-      ...config.module,
-      exprContextCritical: false,
-    };
-    return config;
   },
 };
 
