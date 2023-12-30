@@ -3,15 +3,12 @@
 import { login, logout } from "@/redux/userSlice.";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import {
   Button,
   Container,
-  Dropdown,
-  DropdownButton,
   Form,
   Nav,
   NavDropdown,
@@ -20,32 +17,12 @@ import {
 import { BiEditAlt, BiLogOut, BiMenu, BiPlus } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 
-const Header = () => {
+const Header = (props) => {
   const { user } = useSelector((state) => state.user);
   const [search, setSearch] = useState("");
-  const [isHero, setIsHero] = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
   const { data: session } = useSession();
-
-  const handleColor = () => {
-    if (
-      window.innerHeight > window.scrollY &&
-      window.location.pathname == "/"
-    ) {
-      setIsHero(true);
-    } else {
-      setIsHero(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleColor);
-
-    return () => {
-      window.removeEventListener("scroll", handleColor);
-    };
-  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -75,9 +52,9 @@ const Header = () => {
     <Navbar
       bg="dark"
       data-bs-theme="dark"
-      className={`${isHero ? "bg-transparent transition" : "transition"}`}
       fixed="top"
       expand="sm"
+      {...props}
     >
       <Container>
         <Navbar.Brand href="#" onClick={() => handleRouteChange("/")}>Blog</Navbar.Brand>
