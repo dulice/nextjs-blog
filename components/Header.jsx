@@ -4,7 +4,7 @@ import { login, logout } from "@/redux/userSlice.";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import {
@@ -13,17 +13,39 @@ import {
   Dropdown,
   DropdownButton,
   Form,
+  Nav,
+  NavDropdown,
   Navbar,
 } from "react-bootstrap";
-import { BiEditAlt, BiLogOut, BiPlus } from "react-icons/bi";
+import { BiEditAlt, BiLogOut, BiMenu, BiPlus } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
   const { user } = useSelector((state) => state.user);
   const [search, setSearch] = useState("");
+  const [isHero, setIsHero] = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
   const { data: session } = useSession();
+
+  const handleColor = () => {
+    if (
+      window.innerHeight > window.scrollY &&
+      window.location.pathname == "/"
+    ) {
+      setIsHero(true);
+    } else {
+      setIsHero(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleColor);
+
+    return () => {
+      window.removeEventListener("scroll", handleColor);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -45,17 +67,20 @@ const Header = () => {
     dispatch(logout());
   };
 
-  const handleEdit = () => {
-    router.push("/auth/update");
+  const handleRouteChange = (url) => {
+    router.push(url);
   };
+
   return (
-    <Navbar bg="light" className="border mb-3" sticky="top">
+    <Navbar
+      bg="dark"
+      data-bs-theme="dark"
+      className={`${isHero ? "bg-transparent transition" : "transition"}`}
+      fixed="top"
+      expand="sm"
+    >
       <Container>
-        <Navbar.Brand>
-          <Link href={"/"} className="text-decoration-none text-bl">
-            Blog
-          </Link>
-        </Navbar.Brand>
+        <Navbar.Brand href="#" onClick={() => handleRouteChange("/")}>Blog</Navbar.Brand>
         <Form onSubmit={handleSearch}>
           <Form.Control
             input="text"
@@ -64,51 +89,55 @@ const Header = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </Form>
-        <Navbar.Toggle />
-        <Navbar.Collapse className="justify-content-end gap-3">
-          {user ? (
-            <>
-              <Button variant="light">
-                <Link
-                  href="/posts/createPost"
-                  className="text-decoration-none text-black"
+        <Navbar.Toggle className="bg-white">
+          <BiMenu />
+        </Navbar.Toggle>
+        <Navbar.Collapse className="">
+          <Nav className="ms-auto">
+            {user ? (
+              <>
+                <Nav.Link
+                  onClick={() => handleRouteChange("/posts/createPost")}
                 >
-                  Add <BiPlus />
-                </Link>
-              </Button>
-              <DropdownButton
-                variant="light"
-                title={
-                  <Image
-                    src={user.image}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className="rounded-circle"
-                    style={{ objectFit: "cover" }}
-                    unoptimized
-                  />
-                }
-              >
-                <Dropdown.Item onClick={handleEdit}>
-                  <BiEditAlt /> Edit Account
-                </Dropdown.Item>
-                <Dropdown.Item onClick={handleLogout}>
-                  <BiLogOut /> Logout
-                </Dropdown.Item>
-              </DropdownButton>
-            </>
-          ) : (
-            <>
-              <Link href="/auth/login">
-                <Button variant="light">Login</Button>
-              </Link>
+                  <Button>
+                    Add <BiPlus />
+                  </Button>
+                </Nav.Link>
 
-              <Link href="/auth/register">
-                <Button variant="outline-primary">Create an account</Button>
-              </Link>
-            </>
-          )}
+                <NavDropdown
+                  title={
+                    <Image
+                      src={user.image}
+                      alt=""
+                      width={40}
+                      height={40}
+                      className="rounded-circle"
+                      style={{ objectFit: "cover" }}
+                      unoptimized
+                    />
+                  }
+                >
+                  <NavDropdown.Item
+                    onClick={() => handleRouteChange("/auth/update")}
+                  >
+                    <BiEditAlt /> Edit Account
+                  </NavDropdown.Item>
+                  <NavDropdown.Item onClick={handleLogout}>
+                    <BiLogOut /> Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </>
+            ) : (
+              <>
+                <Nav.Link onClick={() => handleRouteChange("/auth/login")}>
+                  <Button variant="light">Login</Button>
+                </Nav.Link>
+                <Nav.Link onClick={() => handleRouteChange("/auth/register")}>
+                  <Button variant="outline-primary">Create an account</Button>
+                </Nav.Link>
+              </>
+            )}
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

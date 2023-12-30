@@ -57,7 +57,7 @@ const PostForm = (props) => {
 
   return (
     <>
-      <Container>
+      <Container style={{marginTop: '5rem'}}>
         {errorMessage && <Error />}
         <Form className="my-3" onSubmit={handleSubmit}>
           <Stack gap={3}>
@@ -96,6 +96,20 @@ const PostForm = (props) => {
             <Form.Group>
               <Form.Label>Language Uses:</Form.Label>
               <Select
+                theme={(theme) => ({
+                  ...theme,
+                  colors: {
+                    ...theme.colors,
+                    primary25: 'gray',
+                    primary: 'gray'
+                  },
+                })}
+                styles={{
+                  control: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: 'transparent', // Override default control background color
+                  })
+                }}
                 closeMenuOnSelect={false}
                 components={animatedComponents}
                 isMulti

@@ -20,7 +20,7 @@ const Search = ({ params }) => {
   if (isLoading) return <HomeSkeleton />;
   return (
     <div>
-      <Container className="px-5">
+      <Container className="px-5" style={{marginTop: '5rem'}}>
         {posts.length <= 0 ? (
           <Alert variant="danger">
             The title you are finding not include in our blog. We are having

@@ -35,7 +35,7 @@ const Login = () => {
   };
   return (
     <>
-      <Container>
+      <Container style={{marginTop: '5rem'}}>
         <Card>
           <Card.Header>
             <h5 className="text-center">Login</h5>
@@ -79,7 +79,7 @@ const Login = () => {
             <div>
               <p className="text-center">OR</p>
               <div>
-                <Button onClick={handleGoogle} variant="outline-dark">
+                <Button onClick={handleGoogle} variant="secondary">
                   <FcGoogle size={20} /> SignIn With Google
                 </Button>
               </div>

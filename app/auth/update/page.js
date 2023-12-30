@@ -75,7 +75,7 @@ const UpdateUser = () => {
 
   return (
     <>
-      <Container>
+      <Container style={{marginTop: '5rem'}}>
         {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
         <Form className="my-3" onSubmit={handleSubmit}>
           <Stack gap={3}>

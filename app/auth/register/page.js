@@ -27,7 +27,7 @@ const Register = () => {
   };
   return (
     <>
-      <Container>
+      <Container style={{marginTop: '5rem'}}>
         <Card>
           <Card.Header>
             <h5 className="text-center">Register</h5>

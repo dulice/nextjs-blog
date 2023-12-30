@@ -20,7 +20,7 @@ const Languages = () => {
   if (isLoading) return <HomeSkeleton />;
   return (
     <div>
-      <Container className="px-5">
+      <Container className="px-5" style={{marginTop: '5rem'}}>
         {posts.length > 0 &&
           posts.map((post) => <Post post={post} key={post._id} />)}
       </Container>

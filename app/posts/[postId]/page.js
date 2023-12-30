@@ -36,21 +36,19 @@ const SinglePost = () => {
   if (isLoading) return <Loading />;
   return (
     <>
-      <Container>
+      <Container style={{marginTop: '5rem'}}>
         {deleteing && <Loading />}
         {user && user.email === post.author?.email && (
           <DropdownButton
-            variant="light"
+            variant="secondary"
+            align="end"
             id="menu"
             title={<BiDotsVerticalRounded />}
             className="text-end mb-3"
           >
-            <Link
-              href={`/posts/editPost/${postId}`}
-              className="text-decoration-none text-black-50 ms-3 mb-3"
-            >
+            <Dropdown.Item onClick={() => route.push(`/posts/editPost/${postId}`)}>
               Edit Post <BiEdit />
-            </Link>
+            </Dropdown.Item>
             <Dropdown.Item onClick={handleDelte} className="text-danger">
               Delete <BiTrash />
             </Dropdown.Item>
@@ -79,13 +77,13 @@ const SinglePost = () => {
                   />
                   <div>
                     <span>{post.author?.name}</span>
-                    <small className="text-black-50 d-block text-sm">
+                    <small className="text-white-50 d-block text-sm">
                       Posted On:  {moment(post.createdAt).format("DD MMM YYYY")}
                     </small>
                   </div>
                 </div>
                 <div>
-                  <p className="text-black-50">
+                  <p className="text-white-50">
                     {readingTime(post.description, 180).text}
                   </p>
                 </div>
@@ -93,7 +91,7 @@ const SinglePost = () => {
               <h1>{post.title}</h1>
               {post.languages.map((language, index) => (
                 <Link
-                  className="text-black-50 me-3 text-decoration-none"
+                  className="text-white-50 me-3 text-decoration-none"
                   href={`/posts/category/${language}`}
                   key={index}
                 >

@@ -32,7 +32,7 @@ const Post = ({ post }) => {
               </Link>
             ))}
           </div>
-          <Link href={`/posts/${post._id}`} className="text-decoration-none text-black">
+          <Link href={`/posts/${post._id}`} className="text-decoration-none">
             <h4>{post.title}</h4>
           </Link>
           <Row>

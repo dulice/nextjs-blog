@@ -24,3 +24,29 @@ a {
 .modal-dialog {
   width: max-content !important;
 }
+.center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.-left-10 {
+  left: -10%;
+}
+.-right-10 {
+  right: -10%;
+}
+.-top-10 {
+  top: -10%;
+}
+.-bottom-10 {
+  bottom: -10%;
+}
+
+.transition {
+  transition: all;
+  transition-duration: 500;
+}
+#react-select-2-listbox {
+  background-color: rgb(34, 33, 33);
+}
