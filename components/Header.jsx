@@ -49,15 +49,11 @@ const Header = (props) => {
   };
 
   return (
-    <Navbar
-      bg="dark"
-      data-bs-theme="dark"
-      fixed="top"
-      expand="sm"
-      {...props}
-    >
+    <Navbar bg="dark" data-bs-theme="dark" fixed="top" expand="sm" {...props}>
       <Container>
-        <Navbar.Brand href="#" onClick={() => handleRouteChange("/")}>Blog</Navbar.Brand>
+        <Navbar.Brand href="" onClick={() => handleRouteChange("/")}>
+          Blog
+        </Navbar.Brand>
         <Form onSubmit={handleSearch}>
           <Form.Control
             input="text"
@@ -74,8 +70,7 @@ const Header = (props) => {
             {user ? (
               <>
                 <Nav.Link
-                  onClick={() => handleRouteChange("/posts/createPost")}
-                >
+                  onClick={() => handleRouteChange("/posts/createPost")}>
                   <Button>
                     Add <BiPlus />
                   </Button>
@@ -90,13 +85,10 @@ const Header = (props) => {
                       height={40}
                       className="rounded-circle"
                       style={{ objectFit: "cover" }}
-                      unoptimized
                     />
-                  }
-                >
+                  }>
                   <NavDropdown.Item
-                    onClick={() => handleRouteChange("/auth/update")}
-                  >
+                    onClick={() => handleRouteChange("/auth/update")}>
                     <BiEditAlt /> Edit Account
                   </NavDropdown.Item>
                   <NavDropdown.Item onClick={handleLogout}>

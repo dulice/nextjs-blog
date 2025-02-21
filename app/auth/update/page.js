@@ -3,8 +3,9 @@
 import { logout } from "@/redux/userSlice.";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { Alert, Button, Container, Form, Image, Stack } from "react-bootstrap";
+import { Alert, Button, Container, Form, Stack } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 const UpdateUser = () => {
@@ -75,7 +76,7 @@ const UpdateUser = () => {
 
   return (
     <>
-      <Container style={{marginTop: '5rem'}}>
+      <Container style={{ marginTop: "5rem" }}>
         {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
         <Form className="my-3" onSubmit={handleSubmit}>
           <Stack gap={3}>

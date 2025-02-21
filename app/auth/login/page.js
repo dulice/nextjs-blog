@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import {Alert, Button, Card, Container, Form, Stack } from "react-bootstrap";
+import { Alert, Button, Card, Container, Form, Stack } from "react-bootstrap";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -21,8 +21,8 @@ const Login = () => {
       password,
       redirect: false,
     });
-    if (res.error === null) {
-      router.back() || router.push("/");
+    if (res.ok) {
+      router.push("/");
     } else {
       setIsLoading(false);
       setErrorMessage(res.error);
@@ -35,7 +35,7 @@ const Login = () => {
   };
   return (
     <>
-      <Container style={{marginTop: '5rem'}}>
+      <Container style={{ marginTop: "5rem" }}>
         <Card>
           <Card.Header>
             <h5 className="text-center">Login</h5>
@@ -65,20 +65,29 @@ const Login = () => {
                   />
                 </Form.Group>
                 <div>
-                  <Button type="submit" disabled={isLoading}>
-                    {isLoading ? "Logging in" : "Login"}
-                  </Button>
-                  <span className="ms-3">
-                    Do not have an account?{" "}
+                  <div className="d-flex justify-content-center">
+                    <Button type="submit" disabled={isLoading}>
+                      {isLoading ? "Logging in" : "Login"}
+                    </Button>
+                  </div>
+                  <small className="text-center d-block mt-2">
+                    Don't have an account?{" "}
                     <Link href={"/auth/register"}>Create Account!</Link>
-                  </span>
+                  </small>
                 </div>
               </Stack>
             </Form>
-            <hr />
+            <div className="d-flex justify-content-between align-items-center my-4">
+              <div
+                className="w-100 bg-secondary"
+                style={{ height: "1px" }}></div>
+              <p className="text-center my-0 mx-2">OR</p>
+              <div
+                className="w-100 bg-secondary"
+                style={{ height: "1px" }}></div>
+            </div>
             <div>
-              <p className="text-center">OR</p>
-              <div>
+              <div className="w-full d-flex justify-content-center">
                 <Button onClick={handleGoogle} variant="secondary">
                   <FcGoogle size={20} /> SignIn With Google
                 </Button>

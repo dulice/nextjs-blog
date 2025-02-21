@@ -9,8 +9,12 @@ import { fetcher } from "@/utlis/helper";
 
 const Comment = () => {
   const { postId } = useParams();
-  const { data: comments, isLoading, error } = useSwr(`/api/comment/${postId}`, fetcher);
-  
+  const {
+    data: comments,
+    isLoading,
+    error,
+  } = useSwr(`/api/comment/${postId}`, fetcher);
+
   if (error) return <Error />;
   if (isLoading) return <CommentSkeleton />;
 
@@ -33,7 +37,6 @@ const Comment = () => {
                     width={30}
                     height={30}
                     className="rounded rounded-circle me-2"
-                    unoptimized
                   />
                 </Col>
                 <Col>

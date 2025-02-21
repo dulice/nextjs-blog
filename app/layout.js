@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "@/components/Header";
@@ -14,7 +14,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
-  const showNavbar = pathname !== '/';
+  const showNavbar = !pathname.includes("/auth/");
   return (
     <html lang="en">
       <body className={inter.className} data-bs-theme="dark">

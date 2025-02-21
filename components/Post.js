@@ -7,7 +7,6 @@ import { Col, Row } from "react-bootstrap";
 import { readingTime } from "reading-time-estimator";
 
 const Post = ({ post }) => {
-
   return (
     <>
       <Row className="mb-5">
@@ -19,15 +18,18 @@ const Post = ({ post }) => {
               width={100}
               height={100}
               className="w-100 h-100"
-              style={{objectFit: "contain"}}
-              unoptimized  
+              style={{ objectFit: "contain" }}
+              unoptimized
             />
           </Link>
         </Col>
         <Col>
           <div>
             {post.languages.map((language, index) => (
-              <Link href={`/posts/category/${language}`} key={index} className="text-decoration-none me-3">
+              <Link
+                href={`/posts/category/${language}`}
+                key={index}
+                className="text-decoration-none me-3">
                 #{language}
               </Link>
             ))}
@@ -43,7 +45,6 @@ const Post = ({ post }) => {
                 width={30}
                 height={30}
                 className="rounded rounded-circle me-2"
-                unoptimized
               />
               <span>{post.author?.name}</span>
             </Col>

@@ -1,49 +1,27 @@
-"use client";
-
-import Error from "@/components/Error";
+import { searchPosts } from "@/app/actions/posts";
 import HomeSkeleton from "@/components/HomeSkeleton";
 import Post from "@/components/Post";
-import { fetcher } from "@/utlis/helper";
 import Link from "next/link";
-import { Alert, Container } from "react-bootstrap";
-import useSWR from "swr";
+import { Suspense } from "react";
 
-const Search = ({ params }) => {
-  const { search } = params;
-  const {
-    data: posts,
-    isLoading,
-    error,
-  } = useSWR(`/api/posts/search/${search}`, fetcher);
+const Search = async ({ params: { search } }) => {
+  const posts = await searchPosts(search);
 
-  if (error) return <Error />;
-  if (isLoading) return <HomeSkeleton />;
   return (
-    <div>
-      <Container className="px-5" style={{marginTop: '5rem'}}>
+    <Suspense fallback={<HomeSkeleton />}>
+      <div className="container px-5" style={{ marginTop: "5rem" }}>
         {posts.length <= 0 ? (
-          <Alert variant="danger">
+          <div className="alert alert-danger">
             The title you are finding not include in our blog. We are having
             interesting blog you might like, go to{" "}
             <Link href="/">Homepage</Link>
-          </Alert>
+          </div>
         ) : (
           posts.map((post) => <Post post={post} key={post._id} />)
         )}
-      </Container>
-    </div>
+      </div>
+    </Suspense>
   );
 };
 
 export default Search;
-// export const dynamic = "error";
-// export const dynamicParams = false;
-// export async function generateStaticParams({ params: search }) {
-//   const products = await fetch(`/api/posts/search/${search}`).then((res) =>
-//     res.json()
-//   );
-
-//   return products.map((product) => ({
-//     product: product._id,
-//   }));
-// }

@@ -35,7 +35,7 @@ const PostForm = (props) => {
     setLanguages,
     isLoading,
     handleSubmit,
-    errorMessage
+    errorMessage,
   } = props;
   const animatedComponents = makeAnimated();
   const handleSelectOption = (languages) => {
@@ -57,7 +57,7 @@ const PostForm = (props) => {
 
   return (
     <>
-      <Container style={{marginTop: '5rem'}}>
+      <Container style={{ marginTop: "5rem" }}>
         {errorMessage && <Error />}
         <Form className="my-3" onSubmit={handleSubmit}>
           <Stack gap={3}>
@@ -69,7 +69,7 @@ const PostForm = (props) => {
                   <div className="imgFrame">
                     <span>
                       Upload your photo here or{" "}
-                      <Button variant="primary">Browse</Button>
+                      <span className="btn btn-primary">Browse</span>
                     </span>
                   </div>
                 )}
@@ -100,15 +100,21 @@ const PostForm = (props) => {
                   ...theme,
                   colors: {
                     ...theme.colors,
-                    primary25: 'gray',
-                    primary: 'gray'
+                    primary25: "gray",
+                    primary: "gray",
                   },
                 })}
                 styles={{
                   control: (provided, state) => ({
                     ...provided,
-                    backgroundColor: 'transparent', // Override default control background color
-                  })
+                    backgroundColor: "transparent", // Override default control background color
+                  }),
+                  option: (styles, { isFocused }) => {
+                    return {
+                      ...styles,
+                      backgroundColor: isFocused ? "#0d6efd" : "#41464b",
+                    };
+                  },
                 }}
                 closeMenuOnSelect={false}
                 components={animatedComponents}

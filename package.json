@@ -22,7 +22,8 @@
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
     "moment": "^2.29.4",
-    "mongoose": "^7.2.1",
+    "mongodb": "^6.13.0",
+    "mongoose": "^8.10.1",
     "next": "13.4.4",
     "next-auth": "^4.22.1",
     "react": "18.2.0",
@@ -36,6 +37,7 @@
     "react-syntax-highlighter": "^15.5.0",
     "reading-time-estimator": "^1.8.1",
     "redux": "^4.2.1",
+    "remark-gfm": "^3.0.1",
     "server-only": "^0.0.1",
     "swr": "^2.1.5"
   }

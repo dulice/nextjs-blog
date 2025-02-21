@@ -1,29 +1,18 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const connection = {};
+const MONGODB_URI = process.env.MONGODB_URI;
+let client = null;
+if (!MONGODB_URI) {
+  throw new Error("MONGODB_URI is not defined in environment variables");
+}
 
 async function connect() {
-    if (connection.isConnected) {
-        return;
-    }
-    if (mongoose.connections.length > 0) {
-        connection.isConnected = mongoose.connections[0].readyState;
-        if (connection.isConnected === 1) {
-            return;
-        }
-        await mongoose.disconnect();
-    }
-    const db = await mongoose.connect(process.env.MONGODB_URI);
-    connection.isConnected = db.connections[0].readyState;
+  if (client) {
+    return client;
+  }
+  await mongoose.connect(MONGODB_URI);
+  client = mongoose.connection;
+  return client;
 }
-
-async function disconnect() {
-    if (connection.isConnected) {
-        if (process.env.NODE_ENV === 'production') {
-            await mongoose.disconnect();
-            connection.isConnected = false;
-        }
-    }
-}
-const db = { connect, disconnect };
+const db = { connect };
 export default db;

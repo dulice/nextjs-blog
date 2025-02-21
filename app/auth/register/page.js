@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import {Alert, Button, Card, Container, Form, Stack } from "react-bootstrap";
+import { Alert, Button, Card, Container, Form, Stack } from "react-bootstrap";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -27,7 +27,7 @@ const Register = () => {
   };
   return (
     <>
-      <Container style={{marginTop: '5rem'}}>
+      <Container style={{ marginTop: "5rem" }}>
         <Card>
           <Card.Header>
             <h5 className="text-center">Register</h5>
@@ -66,14 +66,17 @@ const Register = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </Form.Group>
+
                 <div>
-                  <Button type="submit" disabled={isLoading}>
-                    {isLoading ? "Registering" : "Register"}
-                  </Button>
-                  <span className="ms-3">
+                  <div className="d-flex justify-content-center">
+                    <Button type="submit" disabled={isLoading}>
+                      {isLoading ? "Registering" : "Register"}
+                    </Button>
+                  </div>
+                  <small className="text-center d-block mt-2">
                     Already have an account?{" "}
                     <Link href={"/auth/login"}>Login Account!</Link>
-                  </span>
+                  </small>
                 </div>
               </Stack>
             </Form>

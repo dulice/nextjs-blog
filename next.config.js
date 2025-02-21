@@ -11,7 +11,7 @@ const nextConfig = {
         hostname: "res.cloudinary.com",
       },
     ],
-    unoptimized: true,
+    // unoptimized: true,
   },
 };
 
