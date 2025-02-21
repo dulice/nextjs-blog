@@ -7,11 +7,6 @@ import Providers from "@/components/Providers";
 import { inter } from "./styles/font";
 import { usePathname } from "next/navigation";
 
-export const metadata = {
-  title: "Blog App",
-  description: "Social Nextwork for software developer",
-};
-
 export default function RootLayout({ children }) {
   const pathname = usePathname();
   const showNavbar = !pathname.includes("/auth/");

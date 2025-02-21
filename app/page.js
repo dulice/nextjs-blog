@@ -3,6 +3,11 @@ import React, { Suspense } from "react";
 import { getPosts } from "./actions/posts";
 import HomeSkeleton from "@/components/HomeSkeleton";
 
+export const metadata = {
+  title: "Web Hub",
+  description: "Social Nextwork for software developer",
+};
+
 export default async function Page() {
   const posts = await getPosts();
   return (
